@@ -3,7 +3,11 @@ import time
 import ConfigParser
 import os.path
 import os
-print "#### Demonstrator ####"
+
+VERSION = 0.2
+
+print "#### Demonstrator Version %s ####"%(VERSION)
+
 curtime = (time.strftime("%d.%m.%Y %H:%M:%S"))
 print curtime
 conffile = '/var/lib/univention-appcenter/apps/testapp/data/config/autoconfig.ini'
