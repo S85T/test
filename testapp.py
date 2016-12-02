@@ -10,7 +10,7 @@ print "#### Demonstrator Version %s ####"%(VERSION)
 
 curtime = (time.strftime("%d.%m.%Y %H:%M:%S"))
 print curtime
-conffile = '/var/lib/univention-appcenter/apps/testapp/data/config/autoconfig.ini'
+conffile = '/var/lib/univention-appcenter/apps/littledemoapp/data/config/autoconfig.ini'
 config = ConfigParser.RawConfigParser()
 if not (os.path.isfile(conffile)):
  print('Pfad noch nicht vorhanden, lege ihn an...')
