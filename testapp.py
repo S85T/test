@@ -1,16 +1,23 @@
 #!/usr/bin/python
+import sys
 import time
 import ConfigParser
 import os.path
 import os
+import MySQLdb
 
 VERSION = 0.2
+dbuser = ''
+dbpass = ''
+dbhost = ''
+dbname = ''
+
 
 print "#### Demonstrator Version %s ####"%(VERSION)
 
 curtime = (time.strftime("%d.%m.%Y %H:%M:%S"))
 print curtime
-conffile = '/var/lib/univention-appcenter/apps/littledemoapp/data/config/autoconfig.ini'
+conffile = '/var/lib/univention-appcenter/apps/littledemoapp/data/config/config.ini'
 config = ConfigParser.RawConfigParser()
 if not (os.path.isfile(conffile)):
  print('Pfad noch nicht vorhanden, lege ihn an...')
@@ -34,7 +41,24 @@ if not (config.has_section('Database')):
   config.write(configfile)
  print "Configdatei mit Defaultwerten geschrieben"
 else:
- config.read('config.cfg')
- print config.get('Database','db')
- print config.get('Database','dbuser')
- print config.get('Database','dbpass')
+ config.read('config.ini')
+ dbname = config.get('Database','db')
+ dbuser = config.get('Database','dbuser')
+ dbpass = config.get('Database','dbpass')
+ dbhost = config.get('Database','dbhost')
+
+#Database-Connection
+try:
+ db = MySQLdb.connect(dbhost,dbuser,dbpass,dbname)
+ print("DB-Connection successful: ",db) 
+ 
+ cur = db.cursor()
+ cur.execute("select * from testappdata")
+ for row in cur.fetchall():
+  print row[0]
+  
+ cur.execute("create table testappdata (ID INT NOT NULL AUTO_INCREMENT, Dataname VARCHAR2(50))")
+
+ db.close()
+except:
+ print("Unexpected error:",sys.exc_info()[0])
