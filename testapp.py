@@ -6,7 +6,7 @@ import os.path
 import os
 import MySQLdb
 
-VERSION = 0.2
+VERSION = 0.4
 dbuser = ''
 dbpass = ''
 dbhost = ''
@@ -44,7 +44,7 @@ else:
  dbname = config.get('Database','dbname')
  dbuser = config.get('Database','dbuser')
  dbpass = config.get('Database','dbpass')
- dbhost = config.get('Database','dbhost')
+ dbhost = "localhost"
 
 print("%s %s %s %s ")%(dbname,dbuser,dbpass,dbhost)
 
@@ -54,14 +54,21 @@ try:
   db = MySQLdb.connect(dbhost,dbuser,dbpass,dbname)
  except:
   print("=> No Connection possible!")
- print("DB-Connection successful: ",db) 
+ print("DB-Connection successful ") 
  
  cur = db.cursor()
- cur.execute("select * from testappdata")
+ cur.execute("select VERSION()")
  for row in cur.fetchall():
   print row[0]
   
- cur.execute("create table testappdata (ID INT NOT NULL AUTO_INCREMENT, Dataname VARCHAR2(50))")
+ cur.execute("DROP TABLE IF EXISTS testappdata")
+ cur.execute("create table testappdata (ID INT PRIMARY KEY AUTO_INCREMENT, Dataname VARCHAR(50))")
+ cur.execute("INSERT INTO testappdata(Dataname) VALUES('Dataelem1')")
+ cur.execute("INSERT INTO testappdata(Dataname) VALUES('Dataelem2')")
+
+ cur.execute("select * from testappdata")
+ for row in cur.fetchall():
+  print("%s - %s")%(row[0],row[1])
 
  db.close()
 except:
