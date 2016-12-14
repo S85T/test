@@ -45,7 +45,7 @@ else:
  dbuser = config.get('Database','dbuser')
  dbpass = config.get('Database','dbpass')
  dbhost = config.get('Database','dbhost')
- dbport = config.get('Database','dbport')
+ dbport = config.getint('Database','dbport')
 
 print("%s %s %s %s %s")%(dbname,dbuser,dbpass,dbhost,dbport)
 
