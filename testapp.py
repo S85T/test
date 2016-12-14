@@ -44,14 +44,15 @@ else:
  dbname = config.get('Database','dbname')
  dbuser = config.get('Database','dbuser')
  dbpass = config.get('Database','dbpass')
- dbhost = "localhost"
+ dbhost = config.get('Database','dbhost')
+ dbport = config.get('Database','dbport')
 
-print("%s %s %s %s ")%(dbname,dbuser,dbpass,dbhost)
+print("%s %s %s %s %s")%(dbname,dbuser,dbpass,dbhost,dbport)
 
 #Database-Connection
 try:
  try:
-  db = MySQLdb.connect(dbhost,dbuser,dbpass,dbname)
+  db = MySQLdb.connect(host=dbhost,port=dbport,user=dbuser,passwd=dbpass,db=dbname)
  except:
   print("=> No Connection possible!")
  print("DB-Connection successful ") 
