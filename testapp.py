@@ -41,15 +41,19 @@ if not (config.has_section('Database')):
   config.write(configfile)
  print "Configdatei mit Defaultwerten geschrieben"
 else:
- config.read('config.ini')
- dbname = config.get('Database','db')
+ dbname = config.get('Database','dbname')
  dbuser = config.get('Database','dbuser')
  dbpass = config.get('Database','dbpass')
  dbhost = config.get('Database','dbhost')
 
+print("%s %s %s %s ")%(dbname,dbuser,dbpass,dbhost)
+
 #Database-Connection
 try:
- db = MySQLdb.connect(dbhost,dbuser,dbpass,dbname)
+ try:
+  db = MySQLdb.connect(dbhost,dbuser,dbpass,dbname)
+ except:
+  print("=> No Connection possible!")
  print("DB-Connection successful: ",db) 
  
  cur = db.cursor()
